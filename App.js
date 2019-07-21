@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   Button,
+  FlatList,
 } from 'react-native';
 
 import Layout from './components/Layout';
@@ -45,7 +46,11 @@ const App = () => {
       <TextInput placeholder="Todo name" value={itemName} onChangeText={handleInputChange} />
       <Button title="Add item" onPress={addItem} />
       {isListEmpty && <Text>No items</Text>}
-      {items.map(({name, id})=> <ListItem key={id} name={name} id={id} deleteItem={deleteItem} />)}
+      <FlatList
+        data={items}
+        keyExtractor={({id})=> id.toString()}
+        renderItem={({item})=> <ListItem {...item} deleteItem={deleteItem} />}
+      />
     </Layout>
   );
 };
