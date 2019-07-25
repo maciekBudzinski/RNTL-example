@@ -7,8 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 
-import Layout from './components/Layout';
-import ListItem from './components/ListItem';
+import {Layout, ListItem} from 'components';
 
 const showEmptyInputAlert = () => {
   Alert.alert('Error', 'Can\'t add empty item', [{
@@ -16,9 +15,9 @@ const showEmptyInputAlert = () => {
   }]);
 };
 
-const App = () => {
+const App = ({defaultItems = []}) => {
   const [itemName, setItemName] = useState('');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(defaultItems);
 
   const handleInputChange = useCallback((text)=> {
     setItemName(text);
