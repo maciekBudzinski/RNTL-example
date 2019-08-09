@@ -8,6 +8,8 @@ describe('Components: ListItem', () => {
     id: 12345,
     name: 'Todo item',
     deleteItem: jest.fn(),
+    handleUnmount: jest.fn(),
+    handleNameChange: jest.fn(),
   };
   it('Should match snapshot', () => {
     const wrapper = render(<ListItem {...defaultProps} />);
@@ -37,19 +39,19 @@ describe('Components: ListItem', () => {
     expect(defaultProps.deleteItem).toHaveBeenCalledTimes(1);
     expect(defaultProps.deleteItem).toHaveBeenCalledWith(defaultProps.id);
   });
-});
 
-it('should call unmount function', ()=> {
-  const wrapper = render(<ListItem {...defaultProps} />);
-  wrapper.unmount();
-  expect(defaultProps.handleUnmount).toHaveBeenCalledTimes(1);
-});
+  it('should call unmount function', ()=> {
+    const wrapper = render(<ListItem {...defaultProps} />);
+    wrapper.unmount();
+    expect(defaultProps.handleUnmount).toHaveBeenCalledTimes(1);
+  });
 
 
-//update
-it.only('should call handleNameChange', ()=>{
-  const wrapper = render(<ListItem {...defaultProps} />);
-  wrapper.rerender(<ListItem {...defaultProps} name={'new name'} />);
-  expect(defaultProps.handleNameChange).toHaveBeenCalledTimes(2);
+  //update
+  it('should call handleNameChange', ()=>{
+    const wrapper = render(<ListItem {...defaultProps} />);
+    wrapper.rerender(<ListItem {...defaultProps} name={'new name'} />);
+    expect(defaultProps.handleNameChange).toHaveBeenCalledTimes(2);
+  });
 });
 
