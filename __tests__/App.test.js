@@ -4,7 +4,6 @@ import { ListItem } from 'components';
 import App from '../app/App';
 import {
   render,
-  debug,
   fireEvent,
   waitForElement,
   flushMicrotasksQueue,
@@ -29,6 +28,20 @@ describe('App', () => {
     expect(wrapper.getByText(newTodoName)).toBeTruthy();
   });
 
+  it('Should add async item correctly', async() => {
+    const newTodoName = 'Test todo';
+    const wrapper = render(<App />);
+
+    const textInput = wrapper.getByPlaceholder('Todo name');
+    fireEvent.changeText(textInput, newTodoName);
+    const addButton = wrapper.getByText('Add async item');
+    fireEvent.press(addButton);
+
+    await waitForElement(()=> wrapper.getByText('async' + newTodoName),2000,200);
+
+    expect(wrapper.getByText('async' + newTodoName)).toBeTruthy();
+  });
+
   it('Should delete items', () => {
     const props = {
       defaultItems: [{
@@ -51,7 +64,7 @@ describe('App', () => {
   });
 
 
-  it.only('should display fetched joke', async () => {
+  it('should display fetched joke', async () => {
     const mockedJokeValue = 'Mocked unfunny joke';
     jest.spyOn(axios, 'get').mockReturnValue({ data: { value: mockedJokeValue } });
     const wrapper = render(<App />);

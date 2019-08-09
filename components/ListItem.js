@@ -7,7 +7,7 @@ const ListItem = ({name, id, deleteItem}) => {
   },[deleteItem, id]);
 
   return (
-    <View style={styles.wrapper}>
+    <View testID="wrapper" style={styles.wrapper}>
       <Text style={styles.text}>{name}</Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity onPress={handleDeletePress}>

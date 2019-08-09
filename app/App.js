@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   Alert,
   Text,
@@ -6,26 +6,8 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-
-import {Layout, ListItem} from 'components';
-import axios from 'axios';
-
-const useChuckNorrisJokeFetch = () => {
-  const [text, setText] = useState('Hello World');
-  const getTextFromServer = async () => {
-    // Get response from server
-    const response = await axios.get('https://api.chucknorris.io/jokes/random');
-
-    // Set text
-    setText(response.data.value);
-  };
-
-  useEffect(() => {
-    getTextFromServer();
-  }, []);
-
-  return text;
-};
+import { Layout, ListItem } from 'components';
+import Joke from '../components/Joke';
 
 const showEmptyInputAlert = () => {
   Alert.alert('Error', 'Can\'t add empty item', [{
@@ -33,21 +15,17 @@ const showEmptyInputAlert = () => {
   }]);
 };
 
-const App = ({defaultItems = []}) => {
-  console.log('TCL: App -> App');
+const App = ({ defaultItems = [] }) => {
   const [itemName, setItemName] = useState('');
   const [items, setItems] = useState(defaultItems);
 
-  const joke = useChuckNorrisJokeFetch();
-  console.log('TCL: App -> joke', joke);
-
-  const handleInputChange = useCallback((text)=> {
+  const handleInputChange = useCallback((text) => {
     setItemName(text);
   }, []);
 
-  const addItem = useCallback((isAsync = false)=> {
+  const addItem = useCallback((isAsync = false) => {
     if (itemName) {
-      setItems([...items, {id: Date.now(), name: (isAsync && 'async') + itemName}]);
+      setItems([...items, { id: Date.now(), name: (isAsync && 'async') + itemName }]);
       setItemName('');
     }
     else {
@@ -56,23 +34,23 @@ const App = ({defaultItems = []}) => {
   }, [itemName, items]);
 
   const addAsyncItem = () => (
-    new Promise((resolve)=>{
-      setTimeout(()=>{
+    new Promise((resolve) => {
+      setTimeout(() => {
         addItem(true);
         resolve();
-      }, 500);
+      }, Math.random() * 1000);
     })
   );
 
-  const deleteItem = useCallback((itemId)=> {
-    setItems(items.filter(({id})=> id !== itemId));
+  const deleteItem = useCallback((itemId) => {
+    setItems(items.filter(({ id }) => id !== itemId));
   }, [items]);
 
   const handleListItemUnmount = (id) => {
     console.log(`List item ${id} unmount`);
   };
 
-  const handleChangeName = (name)=>{
+  const handleChangeName = (name) => {
     console.log(`Name changed to ${name}`);
   };
 
@@ -81,15 +59,14 @@ const App = ({defaultItems = []}) => {
   return (
     <Layout>
       <Text testID="testID">Todo App</Text>
-      <Text>{joke}</Text>
       <TextInput placeholder="Todo name" value={itemName} onChangeText={handleInputChange} />
       <Button title="Add item" onPress={addItem} />
       <Button title="Add async item" onPress={addAsyncItem} />
       {isListEmpty && <Text>No items</Text>}
       <FlatList
         data={items}
-        keyExtractor={({id})=> id.toString()}
-        renderItem={({item})=>
+        keyExtractor={({ id }) => id.toString()}
+        renderItem={({ item }) =>
           (
             <ListItem
               handleNameChange={handleChangeName}
@@ -98,6 +75,7 @@ const App = ({defaultItems = []}) => {
               {...item}
             />)}
       />
+      <Joke />
     </Layout>
   );
 };
