@@ -1,10 +1,22 @@
-import React, {useCallback} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const ListItem = ({name, id, deleteItem}) => {
-  const handleDeletePress = useCallback(()=> {
+const ListItem = ({
+  name,
+  id,
+  deleteItem,
+  handleUnmount = () => console.log('unmount'),
+  handleNameChange = itemName => console.log(itemName),
+}) => {
+  const handleDeletePress = useCallback(() => {
     deleteItem(id);
-  },[deleteItem, id]);
+  }, [deleteItem, id]);
+
+  useEffect(() => handleUnmount());
+
+  useEffect(() => {
+    handleNameChange(name);
+  }, [handleNameChange, name]);
 
   return (
     <View testID="wrapper" style={styles.wrapper}>

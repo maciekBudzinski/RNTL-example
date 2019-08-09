@@ -3,10 +3,16 @@
 exports[`Components: Layout Should match snapshot 1`] = `
 <RCTSafeAreaView
   emulateUnlessSupported={true}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
 >
   <View
     style={
       Object {
+        "flex": 1,
         "padding": 16,
       }
     }

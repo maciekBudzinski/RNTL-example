@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { ListItem } from 'components';
 import { render, fireEvent } from 'react-native-testing-library';
+import { ListItem } from 'components';
 
 describe('Components: ListItem', () => {
   const defaultProps = {
@@ -11,20 +11,22 @@ describe('Components: ListItem', () => {
     handleUnmount: jest.fn(),
     handleNameChange: jest.fn(),
   };
-  it('Should match snapshot', () => {
-    const wrapper = render(<ListItem {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
+
+  beforeEach(()=>{
+    defaultProps.deleteItem.mockClear();
+    defaultProps.handleUnmount.mockClear();
+    defaultProps.handleNameChange.mockClear();
   });
 
   it('Should render delete button', () => {
     const wrapper = render(<ListItem {...defaultProps} />);
     const deleteText = wrapper.getByText('Delete');
+
     expect(deleteText).toBeTruthy();
   });
 
   it('Should render red delete button', () => {
     const wrapper = render(<ListItem {...defaultProps} />);
-
     const deleteText = wrapper.getByText('Delete');
     const deleteTextStyle = deleteText.props.style;
 
@@ -35,23 +37,30 @@ describe('Components: ListItem', () => {
   it('Should call deleteItem function with key parameter', () => {
     const wrapper = render(<ListItem {...defaultProps} />);
     const button = wrapper.getByType(TouchableOpacity);
+
     fireEvent.press(button);
+
     expect(defaultProps.deleteItem).toHaveBeenCalledTimes(1);
     expect(defaultProps.deleteItem).toHaveBeenCalledWith(defaultProps.id);
   });
 
   it('should call unmount function', ()=> {
     const wrapper = render(<ListItem {...defaultProps} />);
+
     wrapper.unmount();
+
     expect(defaultProps.handleUnmount).toHaveBeenCalledTimes(1);
   });
 
 
   //update
   it('should call handleNameChange', ()=>{
+
     const wrapper = render(<ListItem {...defaultProps} />);
+
     wrapper.rerender(<ListItem {...defaultProps} name={'new name'} />);
-    expect(defaultProps.handleNameChange).toHaveBeenCalledTimes(2);
+
+    expect(defaultProps.handleNameChange).toHaveBeenCalledWith(defaultProps.name);
   });
 });
 

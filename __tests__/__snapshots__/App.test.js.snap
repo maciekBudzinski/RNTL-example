@@ -3,15 +3,23 @@
 exports[`App Should match snapshot 1`] = `
 <RCTSafeAreaView
   emulateUnlessSupported={true}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
 >
   <View
     style={
       Object {
+        "flex": 1,
         "padding": 16,
       }
     }
   >
-    <Text>
+    <Text
+      testID="testID"
+    >
       Todo App
     </Text>
     <TextInput
@@ -64,6 +72,48 @@ exports[`App Should match snapshot 1`] = `
         </Text>
       </View>
     </View>
+    <View
+      accessibilityRole="button"
+      accessibilityStates={Array []}
+      accessible={true}
+      clickable={true}
+      isTVSelectable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "padding": 8,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          Add async item
+        </Text>
+      </View>
+    </View>
     <Text>
       No items
     </Text>
@@ -94,6 +144,26 @@ exports[`App Should match snapshot 1`] = `
     >
       <View />
     </RCTScrollView>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "padding": 8,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "fontSize": 22,
+          }
+        }
+      >
+        
+      </Text>
+    </View>
   </View>
 </RCTSafeAreaView>
 `;

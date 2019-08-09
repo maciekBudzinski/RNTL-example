@@ -13,6 +13,7 @@ import axios from 'axios';
 describe('App', () => {
   it('Should match snapshot', () => {
     const wrapper = render(<App />);
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -22,8 +23,11 @@ describe('App', () => {
 
     const textInput = wrapper.getByPlaceholder('Todo name');
     fireEvent.changeText(textInput, newTodoName);
-    const addButton = wrapper.getByType(Button);
+
+    const addButton = wrapper.getByText('Add item');
     fireEvent.press(addButton);
+
+    wrapper.debug();
 
     expect(wrapper.getByText(newTodoName)).toBeTruthy();
   });
@@ -34,6 +38,7 @@ describe('App', () => {
 
     const textInput = wrapper.getByPlaceholder('Todo name');
     fireEvent.changeText(textInput, newTodoName);
+
     const addButton = wrapper.getByText('Add async item');
     fireEvent.press(addButton);
 
@@ -56,9 +61,10 @@ describe('App', () => {
     };
 
     const wrapper = render(<App {...props} />);
-    const deleteButtons = wrapper.getAllByText('Delete');
 
+    const deleteButtons = wrapper.getAllByText('Delete');
     fireEvent.press(deleteButtons[0]);
+
     expect(wrapper.getAllByType(ListItem).length).toBe(1);
     expect(wrapper.getAllByText('Todo 456').length).toBe(1);
   });
@@ -67,6 +73,7 @@ describe('App', () => {
   it('should display fetched joke', async () => {
     const mockedJokeValue = 'Mocked unfunny joke';
     jest.spyOn(axios, 'get').mockReturnValue({ data: { value: mockedJokeValue } });
+
     const wrapper = render(<App />);
 
     await flushMicrotasksQueue();

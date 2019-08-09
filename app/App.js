@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Alert,
   Text,
@@ -6,8 +6,7 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-import { Layout, ListItem } from 'components';
-import Joke from '../components/Joke';
+import { Layout, ListItem, Joke } from 'components';
 
 const showEmptyInputAlert = () => {
   Alert.alert('Error', 'Can\'t add empty item', [{
@@ -25,7 +24,7 @@ const App = ({ defaultItems = [] }) => {
 
   const addItem = useCallback((isAsync = false) => {
     if (itemName) {
-      setItems([...items, { id: Date.now(), name: (isAsync && 'async') + itemName }]);
+      setItems([...items, { id: Date.now(), name: (isAsync ? 'async' : '') + itemName }]);
       setItemName('');
     }
     else {
@@ -46,14 +45,6 @@ const App = ({ defaultItems = [] }) => {
     setItems(items.filter(({ id }) => id !== itemId));
   }, [items]);
 
-  const handleListItemUnmount = (id) => {
-    console.log(`List item ${id} unmount`);
-  };
-
-  const handleChangeName = (name) => {
-    console.log(`Name changed to ${name}`);
-  };
-
   const isListEmpty = items.length === 0;
 
   return (
@@ -69,8 +60,6 @@ const App = ({ defaultItems = [] }) => {
         renderItem={({ item }) =>
           (
             <ListItem
-              handleNameChange={handleChangeName}
-              handleUnmount={handleListItemUnmount}
               deleteItem={deleteItem}
               {...item}
             />)}
