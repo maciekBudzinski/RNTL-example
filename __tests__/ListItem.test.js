@@ -38,3 +38,18 @@ describe('Components: ListItem', () => {
     expect(defaultProps.deleteItem).toHaveBeenCalledWith(defaultProps.id);
   });
 });
+
+it('should call unmount function', ()=> {
+  const wrapper = render(<ListItem {...defaultProps} />);
+  wrapper.unmount();
+  expect(defaultProps.handleUnmount).toHaveBeenCalledTimes(1);
+});
+
+
+//update
+it.only('should call handleNameChange', ()=>{
+  const wrapper = render(<ListItem {...defaultProps} />);
+  wrapper.rerender(<ListItem {...defaultProps} name={'new name'} />);
+  expect(defaultProps.handleNameChange).toHaveBeenCalledTimes(2);
+});
+
