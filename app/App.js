@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   Button,
+  StyleSheet,
   FlatList,
 } from 'react-native';
 import { Layout, ListItem, Joke } from 'components';
@@ -22,7 +23,7 @@ const App = ({ defaultItems = [] }) => {
     setItemName(text);
   }, []);
 
-  const addItem = useCallback((isAsync = false) => {
+  const addItem = useCallback(({isAsync = false}) => {
     if (itemName) {
       setItems([...items, { id: Date.now(), name: (isAsync ? 'async' : '') + itemName }]);
       setItemName('');
@@ -35,7 +36,7 @@ const App = ({ defaultItems = [] }) => {
   const addAsyncItem = () => (
     new Promise((resolve) => {
       setTimeout(() => {
-        addItem(true);
+        addItem({isAsync: true});
         resolve();
       }, Math.random() * 1000);
     })
@@ -49,8 +50,8 @@ const App = ({ defaultItems = [] }) => {
 
   return (
     <Layout>
-      <Text testID="testID">Todo App</Text>
-      <TextInput placeholder="Todo name" value={itemName} onChangeText={handleInputChange} />
+      <Text style={styles.title}>Todo App</Text>
+      <TextInput style={styles.textInput} placeholder="Todo name" value={itemName} onChangeText={handleInputChange} />
       <Button title="Add item" onPress={addItem} />
       <Button title="Add async item" onPress={addAsyncItem} />
       {isListEmpty && <Text>No items</Text>}
@@ -68,5 +69,16 @@ const App = ({ defaultItems = [] }) => {
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    textAlign: 'center',
+    fontSize: 30,
+    marginBottom: 30,
+  },
+  textInput: {
+    fontSize: 20,
+  },
+});
 
 export default App;

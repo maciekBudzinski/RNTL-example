@@ -6,6 +6,8 @@ describe('Components: Layout', () => {
   it('Should match snapshot', () => {
     const wrapper = render(<Layout />);
 
+    wrapper.debug();
+
     expect(wrapper).toMatchSnapshot();
   });
 });

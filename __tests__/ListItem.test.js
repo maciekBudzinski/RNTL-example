@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { render, fireEvent } from 'react-native-testing-library';
 import { ListItem } from 'components';
 
@@ -18,13 +17,7 @@ describe('Components: ListItem', () => {
     defaultProps.handleNameChange.mockClear();
   });
 
-  it('Should render delete button', () => {
-    const wrapper = render(<ListItem {...defaultProps} />);
-    const deleteText = wrapper.getByText('Delete');
-
-    expect(deleteText).toBeTruthy();
-  });
-
+  //queryByText
   it('Should render red delete button', () => {
     const wrapper = render(<ListItem {...defaultProps} />);
     const deleteText = wrapper.getByText('Delete');
@@ -33,17 +26,18 @@ describe('Components: ListItem', () => {
     expect(deleteTextStyle.color).toBe('red');
   });
 
-
+  //fire event
   it('Should call deleteItem function with key parameter', () => {
     const wrapper = render(<ListItem {...defaultProps} />);
-    const button = wrapper.getByType(TouchableOpacity);
+    const button = wrapper.getByText('Delete');
 
     fireEvent.press(button);
+    // fireEvent(button, 'press');
 
-    expect(defaultProps.deleteItem).toHaveBeenCalledTimes(1);
     expect(defaultProps.deleteItem).toHaveBeenCalledWith(defaultProps.id);
   });
 
+  // unmount
   it('should call unmount function', ()=> {
     const wrapper = render(<ListItem {...defaultProps} />);
 
@@ -52,13 +46,12 @@ describe('Components: ListItem', () => {
     expect(defaultProps.handleUnmount).toHaveBeenCalledTimes(1);
   });
 
-
   //update
-  it('should call handleNameChange', ()=>{
-
+  it.only('should call handleNameChange', ()=>{
     const wrapper = render(<ListItem {...defaultProps} />);
 
     wrapper.rerender(<ListItem {...defaultProps} name={'new name'} />);
+    // wrapper.update(<ListItem {...defaultProps} name={'new name'} />);
 
     expect(defaultProps.handleNameChange).toHaveBeenCalledWith(defaultProps.name);
   });
